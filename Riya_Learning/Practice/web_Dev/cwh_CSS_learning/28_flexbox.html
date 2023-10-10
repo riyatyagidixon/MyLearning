@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox</title>
+    <style>
+        .container{
+            height: 344px;
+            width: 100%;
+            border: 2px solid black;
+            /* Initialize the container as flex  */
+            display: flex;
+            /* Flex properties for container  */
+            /* (default value of flex direction is row)  */
+            flex-direction: row ;
+
+            /* flex-direction: column;
+            flex-direction: row-reverse;
+            flex-direction: column-reverse; */
+            /* flex-wrap: wrap; */
+            /* flex-flow: row-reverse wrap; */
+            justify-content: center;
+            /* justify-content: space-between; */
+            /* justify-content: space-evenly; */
+            /* justify-content: space-around;
+
+            align-items: center;
+            align-items: flex-start;
+            align-items: stretch; */
+        }
+        .item{
+            width: 100px;
+            height: 200px;
+            background-color: tomato;
+            border: 2px solid green;
+            margin: 10px;
+            padding: 3px;
+        }
+
+        /* Flex property for a flex items
+        Higher the order later it shows up in the container */
+        #item-1{
+            order: 3;
+        /* It takes the space of the no. of flex-grow boxes in the container  */
+            flex-grow: 2; 
+        }
+        #item-2{
+            order: 4;
+        }
+        #item-3{
+
+        }
+    </style>
+</head>
+<body>
+    <h1>This is my Flexbox </h1>
+    <div class="container">
+        <div class="item" id="item-1">First box</div>
+        <div class="item" id="item-2">Second box</div>
+        <div class="item" id="item-3">Third box</div>
+        <div class="item" id="item-4">Forth box</div>
+        <div class="item" id="item-5">Fifth box</div>
+        <div class="item" id="item-6">Sixth box</div>
+    </div>
+    
+</body>
+</html>

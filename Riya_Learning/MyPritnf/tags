@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC=gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS  = -g -Wall$/;"	m
+MY_INPUT	variable_args.c	18;"	d	file:
+TEXT_SZ	shm_sem.h	15;"	d
+_SHM_H_	shm_sem.h	2;"	d
+colorreset	shm_sem_util.c	/^void colorreset()$/;"	f
+fptr	shm_sem_client.c	/^FILE *fptr = NULL;$/;"	v
+fptr	shm_sem_server.c	/^FILE *fptr = NULL;$/;"	v
+genRandoms	shm_sem_util.c	/^int genRandoms(int lower, int upper)$/;"	f
+main	shm_sem_client.c	/^int main()$/;"	f
+main	shm_sem_server.c	/^int main()$/;"	f
+main	variable_args.c	/^int main(int argc, char *argv[])$/;"	f
+mycolor	shm_sem_util.c	/^void mycolor(int color)$/;"	f
+semaphore_p	shm_sem_util.c	/^int semaphore_p(int sem_id)$/;"	f
+semaphore_v	shm_sem_util.c	/^int semaphore_v(int sem_id)$/;"	f
+sh_dat	shm_sem.h	/^struct sh_dat$/;"	s
+text	shm_sem.h	/^	char text[TEXT_SZ];$/;"	m	struct:sh_dat
+timestamp	shm_sem_util.c	/^char * timestamp()$/;"	f
+variadic_funct	variable_args.c	/^void variadic_funct(int count, ...)$/;"	f

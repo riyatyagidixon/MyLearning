@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riya Fitness</title>
+
+</head>
+<link rel="stylesheet" href="style.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Open+Sans:wght@500;600;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+<style>
+    /*  CSS Reset */
+    body {
+        background: url(./images/bagr.jpg); 
+        width: 100px;
+        height: 600px;
+        background-size: 1500px;
+        background-repeat: no-repeat;
+        font-family: 'Crimson Text', serif;
+        font-weight: bold;
+    }
+    .left{
+        position: absolute;
+        left: 34px;
+        top: 2%;
+        /* border: 2px solid red; */
+        display: inline-block;
+    
+    }
+    .mid{
+        /* border: 2px solid beige; */
+        display: inline-block;
+        position: absolute;
+        left: 400px;
+        top: 2%;
+        padding: 2px 75px;
+        background-color: beige;
+        border-radius: 8px;
+    }
+    .right{
+        position: absolute;
+        right: 34px;
+        top: 2%;
+        /* border: 2px solid red; */
+        display: inline-block;
+    }
+    .navbar{
+        display: inline-block;
+        position:fixed;
+        background-color: beige;
+        border-radius: 8px; 
+    }
+    .navbar li {
+        display: inline-block;
+        font-size: 20px;
+    }
+    .navbar li a {
+        text-decoration: none ;
+        color: darkblue;
+        padding: 10px;
+    }
+    .navbar li a:hover, .navbar li a:active{
+        color: palevioletred;
+        text-decoration: underline;
+    }
+    .left img{
+        width: 50px;
+        padding-left: 20px;
+    }
+    .left div{
+        text-align: center;
+        font-size: 25px;
+        color: darkmagenta;
+    }
+    .btn{
+        margin: 0px 5px;
+        background-color: black;
+        color: white;
+        padding: 10px 12px;
+        border: 2px solid grey;
+        border-radius: 10px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+    .btn:hover{
+        background-color: grey;
+    }
+    .container {
+        /* border: 2px solid green; */
+        margin: 200px 200px;
+        padding: 55px 200px;
+        width: 355%;
+        border-radius: 8px;
+        display: block;
+    }
+    .form-group input {
+        text-align: center;
+        display: block;
+        width: 240px;
+        padding: 14px;
+        border: 2px solid greenyellow;
+        border-radius: 10px;
+        font-size: 19px;
+        margin: 5px auto;
+    }
+    .submitbtn {
+        margin: 10px 115px;
+        background-color: black;
+        color: white;
+        padding: 10px 12px;
+        border: 2px solid grey;
+        border-radius: 10px;
+        font-size: 15px;
+        cursor: pointer; 
+    }
+    .submitbtn:hover {
+        background-color: grey;
+    }
+    .container h1{
+        text-align: center;
+        background-color: antiquewhite;
+    }
+</style>
+<body>
+    <header class="header">
+        <!-- left box for logo -->
+        <div class="left">
+            <img src="images/gym.png" alt=""/>
+            <div>Riya Fitness</div>
+        </div>
+        <!-- mid box for navbar -->
+        <div class="mid">
+            <ul class="navbar">
+                <li><a href="" class="active">Home</a></li>
+                <li><a href="">About Us</a></li>
+                <li><a href="">Fitness Calculator</a></li>
+                <li><a href="">Contact Us</a></li>
+            </ul>
+        </div>
+        <!-- right box for buttons -->
+        <div class="right">
+            <button class="btn">Call us</button>
+            <button class="btn">Email us</button>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Join the best gym now</h1>
+        <form action="noaction.php">
+            <div class="form-group">
+                <input type="text" name="" placeholder="Enter your name"/>
+            </div>
+            <div class="form-group">
+                <input type="text" name="" placeholder="Enter your Age"/>
+            </div>
+            <div class="form-group">
+                <input type="text" name="" placeholder="Enter your Gender"/>
+            </div>
+            <div class="form-group">
+                <input type="text" name="" placeholder="Enter your Locality"/>
+            </div>
+            <button class="submitbtn">Submit</button>
+        </form>
+    </div>
+    
+</body>
+</html>

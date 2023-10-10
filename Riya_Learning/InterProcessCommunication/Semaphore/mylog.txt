@@ -1,0 +1,67 @@
+Shared Memory created
+Semaphore created
+Shared Memory Attached
+Shared Memory Detached
+Shared Memory created
+Semaphore created
+Shared Memory Attached
+Enter some text: User has type the message: hii riya 
+Enter some text: User has type the message: or btao
+Enter some text: User has type the message: end
+User has type the message: end
+Shared Memory Detached
+[shm_sem_client.c] [main] [25] Shared Memory created
+[shm_sem_client.c] [main] [34] Semaphore created
+[shm_sem_client.c] [main] [42] Shared Memory Attached
+[shm_sem_client.c] [main] [50] Enter some text: [shm_sem_client.c] [main] [54] User has type the message: hii riya
+[shm_sem_client.c] [main] [50] Enter some text: [shm_sem_client.c] [main] [54] User has type the message: hello
+[shm_sem_client.c] [main] [50] Enter some text: [shm_sem_client.c] [main] [54] User has type the message: end
+[shm_sem_client.c] [main] [60] User has type the message: end
+[shm_sem_client.c] [main] [69] Shared Memory Detached
+[Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [27] Shared Memory created
+[Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [36] Semaphore created
+[Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [44] Shared Memory Attached
+[Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [52] Enter some text: [Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [56] User has type the message: hello dixon
+[Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [52] Enter some text: [Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [56] User has type the message: hii gaurav
+[Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [52] Enter some text: [Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [56] User has type the message: end
+[Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [62] User has type the message: end
+[Thu Apr 20 17:00:49 2023
+] [shm_sem_client.c] [main] [71] Shared Memory Detached
+[Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [28] Shared Memory created
+[Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [38] Semaphore created
+[Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [47] Shared Memory Attached
+[Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [55] Enter some text: [Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [59] User has type the message: Hellow Dixionawad
+[Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [55] Enter some text: [Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [59] User has type the message: dhadjha
+[Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [55] Enter some text: [Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [59] User has type the message: end
+[Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [65] User has type the message: end
+[Thu Apr 20 17:15:39 2023
+] [shm_sem_client.c] [main] [74] Shared Memory Detached
+[Thu Apr 20 17:30:32 2023] [shm_sem_client.c] [main] [36] Shared Memory created
+[Thu Apr 20 17:30:33 2023] [shm_sem_client.c] [main] [46] Semaphore created
+[Thu Apr 20 17:30:34 2023] [shm_sem_client.c] [main] [55] Shared Memory Attached
+[Thu Apr 20 17:30:36 2023] [shm_sem_client.c] [main] [63] Enter some text: [Thu Apr 20 17:30:53 2023] [shm_sem_client.c] [main] [67] User has type the message: Hello Team Dixon
+[Thu Apr 20 17:30:54 2023] [shm_sem_client.c] [main] [63] Enter some text: [Thu Apr 20 17:31:04 2023] [shm_sem_client.c] [main] [67] User has type the message: Tommorow is Jumma
+[Thu Apr 20 17:31:05 2023] [shm_sem_client.c] [main] [63] Enter some text: [Thu Apr 20 17:31:09 2023] [shm_sem_client.c] [main] [67] User has type the message: Sat is Eid
+[Thu Apr 20 17:31:10 2023] [shm_sem_client.c] [main] [63] Enter some text: [Thu Apr 20 17:31:13 2023] [shm_sem_client.c] [main] [67] User has type the message: end
+[Thu Apr 20 17:31:14 2023] [shm_sem_client.c] [main] [73] User has type the message: end
+[Thu Apr 20 17:31:14 2023] [shm_sem_client.c] [main] [82] Shared Memory Detached
