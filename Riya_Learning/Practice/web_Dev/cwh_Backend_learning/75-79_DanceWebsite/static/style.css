@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Open+Sans:wght@500;600;700&family=Roboto:wght@300&family=Ubuntu:wght@500&family=Young+Serif&display=swap');
+*{
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+#logo{
+    display: flex;
+    color: blue;
+    align-items: center;
+    margin: 0;
+}
+#logo img {
+    height: 52px;
+}
+#navbar{
+    background-color: antiquewhite;
+    padding: 15px 11px;
+    font-family: 'Crimson Text';
+    font-weight: bold;
+
+}
+#navbar ul{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+}
+
+#navbar li {
+    list-style: none;
+}
+
+#navbar li a{
+    text-decoration: none;
+    padding: 11px 22px;
+    font-size: 1.4rem;
+} 
+
+#navbar li a:hover{
+    color: black ;
+}
+
+#introSection{
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: center/cover no-repeat url("../static/dance_bg.jpg");
+    height: 350px;
+    /* background-color: red; */
+    font-family: 'Crimson Text';
+    font-size: 3rem;
+    padding-bottom: 70px;
+}
+#introSection div.small{
+    font-size: 2rem;
+    padding: 5px;
+}
+
+#missionSection{
+    height: 300px;
+    background-color: beige;
+}
+
+#missionSection h2{
+    text-align: center;
+    padding: 14px;
+    font-family: 'Crimson Text';
+    font-size: 2rem;
+}
+
+.card{
+  border: 2px solid black;
+  border-radius: 8px;
+  width: 25%;
+  height: 200px;
+  margin: 11px 51px;
+  padding: 10px;
+  display: inline-block;
+}
+.card h3{
+    text-align: center;
+}
+
+.card-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-img{
+    height: 122px;
+    padding: 18px 24px;
+}
+
+.card-img img{
+    height: inherit;
+}
+
+.card-content{
+    font-family: 'Crimson Text';
+    font-weight: bold;
+}
+#sponsorsSection{
+    height: 300px;
+    background-color: rgb(231, 189, 196);
+}
+
+#sponsorsSection h2{
+    text-align: center;
+    padding: 14px;
+    font-family: 'Crimson Text';
+    font-size: 2rem;
+}
+
+#sponsors{
+    height: 100px;
+    max-width: 100px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+.spImage{
+    height: 120%;
+    margin: 59px;
+}
+
+#footer{
+    height: 40px;
+    background-color:black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-family: 'Crimson Text';
+
+}
+
+
