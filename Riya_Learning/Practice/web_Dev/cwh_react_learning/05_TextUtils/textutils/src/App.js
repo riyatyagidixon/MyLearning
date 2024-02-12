@@ -1,4 +1,5 @@
 import "./App.css";
+import React from "react";
 import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
 // import About from "./components/About";
