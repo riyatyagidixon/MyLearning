@@ -1,0 +1,56 @@
+{
+  "status": "ok",
+  "totalResults": 5,
+  "articles": [
+    {
+      "source": { "id": "associated-press", "name": "Associated Press" },
+      "author": "NAJIB JOBAIN, JOSEF FEDERMAN, SAMY MAGDY",
+      "title": "Israel-Hamas war: More than 12,300 Palestinians minors killed in Gaza, health officials say - The Associated Press",
+      "description": "Israeli forces have rescued two hostages, storming a heavily guarded apartment in the Gaza Strip and extracting the captives under fire in a dramatic raid. It was a small but symbolically significant success for Israel. Health officials said that heavy airstr…",
+      "url": "https://apnews.com/article/israel-hamas-war-news-02-12-2024-4ade5edf47711c6b0c13d1380980de2b",
+      "urlToImage": "https://dims.apnews.com/dims4/default/854ed9b/2147483647/strip/true/crop/5760x3240+0+300/resize/1440x810!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Faa%2F37%2Fd8b46a8ffd8faad75edbb01acbbe%2F5647c50128a74a5cb8162ee1d16b9696",
+      "publishedAt": "2024-02-12T12:00:00Z",
+      "content": "RAFAH, Gaza Strip (AP) Israeli forces rescued two hostages early Monday, storming a heavily guarded apartment in the Gaza Strip and extracting the captives under fire in a dramatic raid that was a sm… [+7132 chars]"
+    },
+    {
+      "source": { "id": "abc-news", "name": "ABC News" },
+      "author": "Emily Shapiro, Leah Sarnoff, Morgan Winsor",
+      "title": "Shooting at Joel Osteen’s Lakewood Church: 2 injured, including a child, armed female suspect killed - ABC News",
+      "description": "A 5-year-old boy was critically wounded, police said.",
+      "url": "https://abcnews.go.com/US/houston-police-shooting-joel-osteen-lakewood-church/story?id=107142052",
+      "urlToImage": "https://i.abcnewsfe.com/a/44ae11ef-afd9-4918-abc0-b9dfc17863b0/lakewood-church-shooting-ht-lv-240211_1707687651566_hpMain_16x9.jpg?w=1600",
+      "publishedAt": "2024-02-12T11:24:11Z",
+      "content": "A woman opened fire with a long gun inside celebrity pastor Joel Osteen's megachurch in Texas on Sunday afternoon before being shot and killed by off-duty police officers, authorities said.\r\nThe arme… [+1411 chars]"
+    },
+    {
+      "source": { "id": "associated-press", "name": "Associated Press" },
+      "author": "TOM ODULA, MUTWIRI MUTUOTA, GERALD IMRAY",
+      "title": "Marathon world record-holder Kelvin Kiptum, who was set to be a superstar, has died in a car crash - The Associated Press",
+      "description": "Marathon world record-holder Kelvin Kiptum, who was set to be a superstar of long-distance running, has died along with his coach in a car crash in Kenya. Kiptum was 24, and the world record he set last year at the Chicago Marathon was ratified by internation…",
+      "url": "https://apnews.com/article/kevin-kiptum-marathon-kenya-killed-314b41c92c9166a3a698a2860fa3fc15",
+      "urlToImage": "https://dims.apnews.com/dims4/default/09e6a04/2147483647/strip/true/crop/4800x2700+0+185/resize/1440x810!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F75%2F6d%2F55b4bd4d2b33326d0ff8591e1131%2F9c4a91a6ffb343aa89998f3e761b6b54",
+      "publishedAt": "2024-02-12T11:04:00Z",
+      "content": "NAIROBI, Kenya (AP) Marathon world record-holder Kelvin Kiptum, who was set to be a superstar of long-distance running and was a top contender for gold at the Olympics in Paris this year, was killed … [+4703 chars]"
+    },
+    {
+      "source": { "id": null, "name": "The Weather Channel" },
+      "author": "The Weather Channel",
+      "title": "Winter Storm Lorraine To Bring Snow, Wind To Northeast | Weather.com - The Weather Channel",
+      "description": "Lorraine will become a nor'easter as it brings snow and strong winds to the Northeast. Here's what to expect. - Articles from The Weather Channel | weather.com",
+      "url": "https://weather.com/storms/winter/news/2024-02-12-winter-storm-lorraine-noreaster-snowstorm-new-york-boston",
+      "urlToImage": "https://s.w-x.co/lorrainemonam.jpg",
+      "publishedAt": "2024-02-12T10:56:04Z",
+      "content": "At a Glance\r\n<ul><li>Winter Storm Lorraine will spread into the Northeast Monday night through Tuesday.</li><li>Significant snow and strong winds will impact the Northeast.</li><li>The Boston, Hartfo… [+3729 chars]"
+    },
+    {
+      "source": { "id": null, "name": "Hindustan Times" },
+      "author": "Sumanti Sen",
+      "title": "What is Alaskapox? Alaska reports first fatal case of viral disease - Hindustan Times",
+      "description": "The disease claimed the life of an elderly immunocompromised man from the Kenai peninsula, south of Anchorage, in late January",
+      "url": "https://www.hindustantimes.com/world-news/us-news/what-is-alaskapox-alaska-reports-first-fatal-case-of-viral-disease-101707705114005.html",
+      "urlToImage": "https://www.hindustantimes.com/ht-img/img/2024/02/12/1600x900/Representational_image_-_Pixabay_1707705211281_1707705211548.jpg",
+      "publishedAt": "2024-02-12T04:15:31Z",
+      "content": "Alaska health officials have confirmed the first death from a recently discovered viral disease Alaskapox. The disease claimed the life of an elderly immunocompromised man from the Kenai peninsula, s… [+2176 chars]"
+    }
+  ]
+}
