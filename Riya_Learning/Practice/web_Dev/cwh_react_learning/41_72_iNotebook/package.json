@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-router-dom": "^6.22.3",
+    "both": "concurrently \"npm run start\" \"node backend/index.js\""
+  }
+}
