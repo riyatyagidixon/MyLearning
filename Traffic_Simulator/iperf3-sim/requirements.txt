@@ -1,0 +1,4 @@
+colorama
+pyfiglet
+pywin32   
+xlwings
