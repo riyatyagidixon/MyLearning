@@ -1,0 +1,37 @@
+name: Run Tests for iperf3
+
+on:
+    push:
+        paths:
+            - "Traffic_Simulator/iperf3-sim/**"
+    pull_request:
+        paths:
+            - "Traffic_Simulator/iperf3-sim/**"
+
+jobs:
+    iper3-script:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.10"
+
+            - name: Navigate to iperf3-sim directory
+              working-directory: Traffic_Simulator/iperf3-sim
+              run: |
+                  python -m venv venv
+                  .\venv\Scripts\activate
+                  pip install -r requirements.txt
+                  pytest
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }} # Add this in your repo's secrets
+                  files: ./Traffic_Simulator/iperf3-sim/coverage.xml
+                  flags: unittests

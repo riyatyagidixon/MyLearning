@@ -1,0 +1,21 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/Logs
+/venv
+/src/__pycache__
+
+# testing
+/.pytest_cache
+/.coverage
+/tests/__pycache__
+/tests/.coverage
+/htmlcov
+/coverage.xml
+
+
+# production
+
+
+# misc
+

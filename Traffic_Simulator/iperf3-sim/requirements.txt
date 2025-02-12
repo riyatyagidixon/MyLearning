@@ -1,0 +1,6 @@
+colorama
+pathlib
+pyfiglet
+xlwings
+pytest
+pytest-cov
