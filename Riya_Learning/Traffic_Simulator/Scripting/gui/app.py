@@ -119,8 +119,13 @@ class AppWindow(QtWidgets.QWidget):
             "http://127.0.0.1:5000/ssh_connect",
             json={"ip": user_input, "username": username, "password": password},
         )
+
         if response.status_code == 200:
-            status = response.json()["status"]
+            data = response.json()
+            status = data["status"]
+            output = data.get("output", "")
+
+            self.output_label.setText(f"SSH Status: {status}\n\nOutput:\n{output}")
             QtWidgets.QMessageBox.information(self, "SSH Status", status)
         else:
             QtWidgets.QMessageBox.critical(self, "Error", "Failed to connect via SSH!")
