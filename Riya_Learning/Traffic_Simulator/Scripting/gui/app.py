@@ -1,138 +1,226 @@
-from PyQt5 import QtWidgets, QtCore
 import sys
-import requests
 import re
+import paramiko
+from qtpy.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QTextEdit,
+    QGroupBox,
+    QMainWindow,
+    QStackedWidget,
+    QFormLayout,
+    QApplication,
+)
+from qtpy.QtCore import Qt
 
 
-class AppWindow(QtWidgets.QWidget):
+class SSHApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.setWindowTitle("SSH Connection App")
+        self.setGeometry(200, 200, 600, 400)
 
-    def initUI(self):
-        self.setWindowTitle("Python PyQt GUI-Backend Communication")
-        self.setGeometry(100, 100, 400, 300)
+        self.stack = QStackedWidget()
+        self.setCentralWidget(self.stack)
 
-        # Main Layout (Vertical)
-        layout = QtWidgets.QVBoxLayout()
+        self.init_login_page()
+        self.init_output_page()
 
-        # Input Field for IP Address
-        self.input_field = QtWidgets.QLineEdit()
-        self.input_field.setPlaceholderText("IP Address")
-        self.input_field.setText("127.0.0.1")
-        layout.addWidget(self.input_field)
+        self.stack.addWidget(self.login_page)
+        self.stack.addWidget(self.output_page)
 
-        # Input Field for Username
-        self.username_field = QtWidgets.QLineEdit()
-        self.username_field.setPlaceholderText("Username")
-        self.username_field.setText("guest")
-        layout.addWidget(self.username_field)
+        self.stack.setCurrentWidget(self.login_page)
 
-        # Input Field for Password
-        self.password_field = QtWidgets.QLineEdit()
-        self.password_field.setPlaceholderText("Password")
-        self.password_field.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.password_field.setText("guest123")
-        layout.addWidget(self.password_field)
+    def init_login_page(self):
+        self.login_page = QWidget()
+        main_layout = QVBoxLayout()
 
-        # Submit Button (Below Password Field)
-        self.submit_button = QtWidgets.QPushButton("Submit")
-        self.submit_button.clicked.connect(self.send_data)
-        layout.addWidget(self.submit_button)
+        credentials_box = QGroupBox("Login Credentials")
+        credentials_box.setStyleSheet("QGroupBox { font-weight: bold; font-size: 14px; }")
+        credentials_layout = QVBoxLayout()
 
-        # Output Layout (Horizontal)
-        output_layout = QtWidgets.QHBoxLayout()
-        self.output_label = QtWidgets.QTextEdit()
-        self.output_label.setReadOnly(True)
-        self.output_label.setStyleSheet("border: 1px solid black; min-height: 50px;")
+        form_layout = QFormLayout()
 
-        self.fetch_button = QtWidgets.QPushButton("Fetch Data")
-        self.fetch_button.clicked.connect(self.fetch_data)
+        self.ip_input = QLineEdit()
+        self.ip_input.setPlaceholderText("Enter IP Address")
+        self.ip_input.setText("127.0.0.1")
+        form_layout.addRow("IP Address:", self.ip_input)
 
-        self.ssh_button = QtWidgets.QPushButton("SSH Connect")
-        self.ssh_button.clicked.connect(self.ssh_connect)
+        self.username_input = QLineEdit()
+        self.username_input.setPlaceholderText("Enter Username")
+        self.username_input.setText("guest")
+        form_layout.addRow("Username:", self.username_input)
 
-        output_layout.addWidget(self.output_label)
-        output_layout.addWidget(self.fetch_button)
-        output_layout.addWidget(self.ssh_button)
+        self.password_input = QLineEdit()
+        self.password_input.setPlaceholderText("Enter Password")
+        self.password_input.setText("guest123")
+        self.password_input.setEchoMode(QLineEdit.Password)
 
-        layout.addLayout(output_layout)
+        self.eye_button = QPushButton("👁")
+        self.eye_button.setCheckable(True)
+        self.eye_button.setFixedWidth(30)
+        self.eye_button.clicked.connect(self.toggle_password)
 
-        self.setLayout(layout)
+        pass_layout = QHBoxLayout()
+        pass_layout.addWidget(self.password_input)
+        pass_layout.addWidget(self.eye_button)
+        form_layout.addRow("Password:", pass_layout)
 
-    def validate_ip(self, ip):
-        pattern = r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$"
-        if not re.match(pattern, ip):
-            return False
-        parts = ip.split(".")
-        for part in parts:
-            if int(part) < 0 or int(part) > 255:
-                return False
-        return True
+        credentials_layout.addLayout(form_layout)
 
-    def send_data(self):
-        user_input = self.input_field.text()
-        username = self.username_field.text()
-        password = self.password_field.text()
+        self.output_box = QTextEdit()
+        self.output_box.setReadOnly(True)
+        self.output_box.setPlaceholderText("Validation output will appear here...")
+        credentials_layout.addWidget(self.output_box)
 
-        if not user_input or not username or not password:
-            QtWidgets.QMessageBox.warning(self, "Error", "All fields are required!")
-            return
+        button_layout = QHBoxLayout()
+        self.disconnect_btn = QPushButton("Disconnect")
+        self.status_btn = QPushButton("Status")
+        self.connect_btn = QPushButton("Connect")
 
-        if not self.validate_ip(user_input):
-            QtWidgets.QMessageBox.warning(self, "Error", "Invalid IP address format!")
-            return
+        self.connect_btn.clicked.connect(self.try_ssh_connection)
 
-        response = requests.post(
-            "http://127.0.0.1:5000/process",
-            json={"ip": user_input, "username": username, "password": password},
+        button_layout.addWidget(self.disconnect_btn)
+        button_layout.addWidget(self.status_btn)
+        button_layout.addWidget(self.connect_btn)
+
+        credentials_layout.addLayout(button_layout)
+        credentials_box.setLayout(credentials_layout)
+
+        main_layout.addWidget(credentials_box)
+
+        # === Control Buttons ===
+        control_button_layout = QHBoxLayout()
+
+        self.next_button = QPushButton("Next →")
+        self.next_button.setFixedSize(100, 30)
+        self.next_button.setStyleSheet(
+            """
+            QPushButton {
+                background-color: #A5D6A7;
+                border: 2px solid #1e90ff;
+                border-radius: 5px;
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #45a049;
+            }
+        """
         )
-        if response.status_code == 200:
-            QtWidgets.QMessageBox.information(
-                self, "Success", "Data submitted successfully!"
-            )
+        control_button_layout.addWidget(self.next_button, alignment=Qt.AlignRight)
+        self.next_button.clicked.connect(self.go_to_next)
+        main_layout.addLayout(control_button_layout)
+
+        self.login_page.setLayout(main_layout)
+
+    def init_output_page(self):
+        self.output_page = QWidget()
+        layout = QVBoxLayout()
+
+        # self.output_label = QLabel("✅ SSH connection successful!")
+        # layout.addWidget(self.output_label)
+
+        # Command Execution Box
+        command_box = QGroupBox("Command Execution")
+        command_box.setStyleSheet("QGroupBox { font-weight: bold; font-size: 14px; }")
+        command_layout = QVBoxLayout()
+        self.command_input = QTextEdit()
+        self.command_input.setPlaceholderText("Enter the commands to run")
+        command_layout.addWidget(self.command_input)
+        command_box.setLayout(command_layout)
+        layout.addWidget(command_box)
+
+        # Output Box
+        result_box = QGroupBox("Output")
+        result_box.setStyleSheet("QGroupBox { font-weight: bold; font-size: 14px; }")
+        result_layout = QVBoxLayout()
+        self.command_output = QTextEdit()
+        self.command_output.setPlaceholderText("Result will show here")
+        self.command_output.setReadOnly(True)
+        result_layout.addWidget(self.command_output)
+        result_box.setLayout(result_layout)
+        layout.addWidget(result_box)
+
+        # self.back_btn = QPushButton("Back")
+
+        # self.back_btn.setStyleSheet("QPushButton { font-weight: bold; font-size: 14px; }")
+        self.back_btn = QPushButton("← Back")
+        self.back_btn.setFixedSize(100, 30)
+        self.back_btn.setStyleSheet(
+            """
+            QPushButton {
+                background-color: #A5D6A7;
+                border: 2px solid #1e90ff;
+                border-radius: 5px;
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #45a049;
+            }
+        """
+        )
+        self.back_btn.clicked.connect(self.go_back_to_login)
+        layout.addWidget(self.back_btn)
+
+        self.output_page.setLayout(layout)
+
+    def toggle_password(self):
+        if self.eye_button.isChecked():
+            self.password_input.setEchoMode(QLineEdit.Normal)
         else:
-            QtWidgets.QMessageBox.critical(
-                self, "Error", "Failed to communicate with backend!"
-            )
+            self.password_input.setEchoMode(QLineEdit.Password)
 
-    def fetch_data(self):
-        response = requests.get("http://127.0.0.1:5000/fetch")
-        if response.status_code == 200:
-            data = response.json()
-            self.output_label.setText(
-                f"IP: {data['ip']}\nUsername: {data['username']}\nPassword: {data['password']}"
-            )
-        else:
-            QtWidgets.QMessageBox.critical(self, "Error", "Failed to fetch data!")
+    def try_ssh_connection(self):
+        ip = self.ip_input.text().strip()
+        username = self.username_input.text().strip()
+        password = self.password_input.text().strip()
+        port = 2222  # SSH port
 
-    def ssh_connect(self):
-        user_input = self.input_field.text()
-        username = self.username_field.text()
-        password = self.password_field.text()
+        self.output_box.clear()
 
-        if not user_input or not username or not password:
-            QtWidgets.QMessageBox.warning(self, "Error", "All fields are required!")
+        if not ip or not username or not password:
+            self.output_box.setText("❌ All fields are required.")
             return
 
-        response = requests.post(
-            "http://127.0.0.1:5000/ssh_connect",
-            json={"ip": user_input, "username": username, "password": password},
-        )
+        ip_pattern = r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$"
+        if not re.match(ip_pattern, ip):
+            self.output_box.setText("❌ Invalid IP address format.")
+            return
 
-        if response.status_code == 200:
-            data = response.json()
-            status = data["status"]
-            output = data.get("output", "")
+        self.output_box.setText("⏳ Trying to connect via SSH...")
+        QApplication.processEvents()  # Forces the GUI to update
+        # time.sleep(5)
+        # print("⏳ Trying to connect via SSH...")
 
-            self.output_label.setText(f"SSH Status: {status}\n\nOutput:\n{output}")
-            QtWidgets.QMessageBox.information(self, "SSH Status", status)
-        else:
-            QtWidgets.QMessageBox.critical(self, "Error", "Failed to connect via SSH!")
+        try:
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            client.connect(
+                ip, port=port, username=username, password=password, timeout=5
+            )
+            self.output_box.setText("✅ SSH connection successful!")
+            # client.close()
+            # self.stack.setCurrentWidget(self.output_page)
+        except Exception as e:
+            self.output_box.setText(f"❌ SSH connection failed: {e}")
+
+    def go_back_to_login(self):
+        self.stack.setCurrentWidget(self.login_page)
+
+    def go_to_next(self):
+        self.stack.setCurrentWidget(self.output_page)
 
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    window = AppWindow()
+    app = QApplication(sys.argv)
+    window = SSHApp()
     window.show()
     sys.exit(app.exec_())

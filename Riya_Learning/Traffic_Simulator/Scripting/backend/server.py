@@ -58,7 +58,7 @@ def ssh_connect():
             return jsonify({"status": "Command failed", "error": error})
 
         print(f"Command Output:\n{output}")  # Print output in VS Code terminal
-        return jsonify({"status": "Connection successful", " output": output})
+        return jsonify({"status": "Connection successful", "output": output})
 
     except Exception as e:
         print(f"Connection failed: {str(e)}")  # Print error in VS Code terminal
@@ -66,4 +66,4 @@ def ssh_connect():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000)  # Run the Flask server on port 5000
