@@ -123,9 +123,6 @@ class SSHApp(QMainWindow):
         self.output_page = QWidget()
         layout = QVBoxLayout()
 
-        # self.output_label = QLabel("✅ SSH connection successful!")
-        # layout.addWidget(self.output_label)
-
         # Command Execution Box
         command_box = QGroupBox("Command Execution")
         command_box.setStyleSheet("QGroupBox { font-weight: bold; font-size: 14px; }")
@@ -147,9 +144,6 @@ class SSHApp(QMainWindow):
         result_box.setLayout(result_layout)
         layout.addWidget(result_box)
 
-        # self.back_btn = QPushButton("Back")
-
-        # self.back_btn.setStyleSheet("QPushButton { font-weight: bold; font-size: 14px; }")
         self.back_btn = QPushButton("← Back")
         self.back_btn.setFixedSize(100, 30)
         self.back_btn.setStyleSheet(
@@ -182,7 +176,7 @@ class SSHApp(QMainWindow):
         ip = self.ip_input.text().strip()
         username = self.username_input.text().strip()
         password = self.password_input.text().strip()
-        port = 2222  # SSH port
+        port = 2222  #SSH Port
 
         self.output_box.clear()
 
@@ -197,9 +191,7 @@ class SSHApp(QMainWindow):
 
         self.output_box.setText("⏳ Trying to connect via SSH...")
         QApplication.processEvents()  # Forces the GUI to update
-        # time.sleep(5)
-        # print("⏳ Trying to connect via SSH...")
-
+        
         try:
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -224,3 +216,5 @@ if __name__ == "__main__":
     window = SSHApp()
     window.show()
     sys.exit(app.exec_())
+
+    
