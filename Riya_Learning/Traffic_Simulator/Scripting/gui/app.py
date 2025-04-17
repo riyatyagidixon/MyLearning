@@ -132,8 +132,7 @@ class SSHApp(QMainWindow):
         command_layout.addWidget(self.command_input)
 
         self.run_command_btn = QPushButton("Run Command")
-        # self.run_command_btn.clicked.connect(self.run_ssh_command)
-        self.run_command_btn.setEnabled(False)  # Disabled as not handled in backend
+        self.run_command_btn.clicked.connect(self.run_ssh_command)
         command_layout.addWidget(self.run_command_btn)
 
         command_box.setLayout(command_layout)
@@ -209,6 +208,24 @@ class SSHApp(QMainWindow):
                 self.output_box.setText(f"❌ SSH connection failed: {data.get('error', 'Unknown error')}")
         except Exception as e:
             self.output_box.setText(f"❌ Backend error: {e}")
+
+    def run_ssh_command(self):
+        command = self.command_input.toPlainText().strip()
+        if not command:
+            self.command_output.setPlainText("⚠️ Please enter a command to execute.")
+            return
+
+        try:
+            response = requests.post(f"{BACKEND_URL}/run_command", json={"command": command})
+            data = response.json()
+            if "output" in data:
+                self.command_output.setPlainText(data["output"])
+            elif "error" in data:
+                self.command_output.setPlainText(f"❌ {data['error']}")
+            else:
+                self.command_output.setPlainText("⚠️ No output received.")
+        except Exception as e:
+            self.command_output.setPlainText(f"❌ Error running command: {e}")
 
     def ssh_status(self):
         try:

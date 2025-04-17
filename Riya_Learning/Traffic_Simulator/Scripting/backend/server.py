@@ -5,7 +5,6 @@ import paramiko
 app = Flask(__name__)
 CORS(app)
 
-
 # Class to manage SSH connection
 class SSHManager:
     def __init__(self):
@@ -30,9 +29,7 @@ class SSHManager:
             return False, "No active SSH connection"
 
     def status(self):
-        if self.client and self.client.get_transport() and self.client.get_transport().is_active():
-            return True
-        return False
+        return self.client is not None and self.client.get_transport() and self.client.get_transport().is_active()
 
     def run_command(self, command):
         if self.status():
@@ -41,63 +38,45 @@ class SSHManager:
         else:
             return None, "SSH connection not active"
 
-
 # Create a single manager instance
 ssh_manager = SSHManager()
-
-data_storage = {
-    "ip": "",
-    "username": "",
-    "password": "",
-}
-
-
-@app.route("/process", methods=["POST"])
-def process_data():
-    global data_storage
-    data_storage = {
-        "ip": request.json.get("ip", ""),
-        "username": request.json.get("username", ""),
-        "password": request.json.get("password", ""),
-    }
-    return jsonify({"message": "Data stored successfully"})
-
-
-@app.route("/fetch", methods=["GET"])
-def fetch_data():
-    return jsonify(data_storage)
-
 
 @app.route("/ssh_connect", methods=["POST"])
 def ssh_connect():
     ip = request.json.get("ip", "")
     username = request.json.get("username", "")
     password = request.json.get("password", "")
-    print(f"Connecting to {ip} with username {username} and password {password}")
-    
-    
-    success, message = ssh_manager.connect(ip, username, password)
-    print(f"Connection status: {success}, message: {message}")
-    if success:
-        # output, error = ssh_manager.run_command("ls")
-        # if error:
-            # return jsonify({"status": "Command failed", "error": error})
-        return jsonify({"status": "Connected", "output": message})
-    else:
-        return jsonify({"status": "Connection failed", "error": message})
 
+    print(f"Connecting to {ip} with username '{username}'")
+
+    success, message = ssh_manager.connect(ip, username, password)
+    if success:
+        return jsonify({"status": "connected", "output": message})
+    else:
+        return jsonify({"status": "failed", "error": message})
 
 @app.route("/ssh_disconnect", methods=["POST"])
 def ssh_disconnect():
     success, message = ssh_manager.disconnect()
     return jsonify({"status": message})
 
-
 @app.route("/ssh_status", methods=["GET"])
 def ssh_status():
-    status = ssh_manager.status()
-    return jsonify({"status": "SSH connection is active" if status else "SSH connection is inactive"})
+    if ssh_manager.status():
+        return jsonify({"status": "connected"})
+    else:
+        return jsonify({"status": "disconnected"})
 
+@app.route("/run_command", methods=["POST"])
+def run_command():
+    command = request.json.get("command", "")
+    if not command:
+        return jsonify({"error": "No command provided"})
+
+    output, error = ssh_manager.run_command(command)
+    if error:
+        return jsonify({"error": error})
+    return jsonify({"output": output})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
