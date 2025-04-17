@@ -1,6 +1,6 @@
 import sys
 import re
-import paramiko
+import requests
 from qtpy.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -17,6 +17,7 @@ from qtpy.QtWidgets import (
 )
 from qtpy.QtCore import Qt
 
+BACKEND_URL = "http://localhost:5000"
 
 class SSHApp(QMainWindow):
     def __init__(self):
@@ -40,7 +41,6 @@ class SSHApp(QMainWindow):
         main_layout = QVBoxLayout()
 
         credentials_box = QGroupBox("Login Credentials")
-        credentials_box.setStyleSheet("QGroupBox { font-weight: bold; font-size: 14px; }")
         credentials_layout = QVBoxLayout()
 
         form_layout = QFormLayout()
@@ -50,17 +50,17 @@ class SSHApp(QMainWindow):
         self.ip_input.setText("127.0.0.1")
         form_layout.addRow("IP Address:", self.ip_input)
 
-        self.username_input = QLineEdit()
+        self.username_input = QLineEdit("admin")
         self.username_input.setPlaceholderText("Enter Username")
         self.username_input.setText("guest")
         form_layout.addRow("Username:", self.username_input)
 
-        self.password_input = QLineEdit()
+        self.password_input = QLineEdit("password")
         self.password_input.setPlaceholderText("Enter Password")
         self.password_input.setText("guest123")
         self.password_input.setEchoMode(QLineEdit.Password)
 
-        self.eye_button = QPushButton("👁")
+        self.eye_button = QPushButton("\U0001F441")  # Eye icon
         self.eye_button.setCheckable(True)
         self.eye_button.setFixedWidth(30)
         self.eye_button.clicked.connect(self.toggle_password)
@@ -82,7 +82,9 @@ class SSHApp(QMainWindow):
         self.status_btn = QPushButton("Status")
         self.connect_btn = QPushButton("Connect")
 
-        self.connect_btn.clicked.connect(self.try_ssh_connection)
+        self.disconnect_btn.clicked.connect(self.ssh_disconnect)
+        self.status_btn.clicked.connect(self.ssh_status)
+        self.connect_btn.clicked.connect(self.ssh_connect)
 
         button_layout.addWidget(self.disconnect_btn)
         button_layout.addWidget(self.status_btn)
@@ -93,7 +95,6 @@ class SSHApp(QMainWindow):
 
         main_layout.addWidget(credentials_box)
 
-        # === Control Buttons ===
         control_button_layout = QHBoxLayout()
 
         self.next_button = QPushButton("Next →")
@@ -123,17 +124,21 @@ class SSHApp(QMainWindow):
         self.output_page = QWidget()
         layout = QVBoxLayout()
 
-        # Command Execution Box
         command_box = QGroupBox("Command Execution")
         command_box.setStyleSheet("QGroupBox { font-weight: bold; font-size: 14px; }")
         command_layout = QVBoxLayout()
         self.command_input = QTextEdit()
         self.command_input.setPlaceholderText("Enter the commands to run")
         command_layout.addWidget(self.command_input)
+
+        self.run_command_btn = QPushButton("Run Command")
+        # self.run_command_btn.clicked.connect(self.run_ssh_command)
+        self.run_command_btn.setEnabled(False)  # Disabled as not handled in backend
+        command_layout.addWidget(self.run_command_btn)
+
         command_box.setLayout(command_layout)
         layout.addWidget(command_box)
 
-        # Output Box
         result_box = QGroupBox("Output")
         result_box.setStyleSheet("QGroupBox { font-weight: bold; font-size: 14px; }")
         result_layout = QVBoxLayout()
@@ -144,7 +149,7 @@ class SSHApp(QMainWindow):
         result_box.setLayout(result_layout)
         layout.addWidget(result_box)
 
-        self.back_btn = QPushButton("← Back")
+        self.back_btn = QPushButton("\u2190Back")
         self.back_btn.setFixedSize(100, 30)
         self.back_btn.setStyleSheet(
             """
@@ -172,14 +177,12 @@ class SSHApp(QMainWindow):
         else:
             self.password_input.setEchoMode(QLineEdit.Password)
 
-    def try_ssh_connection(self):
+    def ssh_connect(self):
         ip = self.ip_input.text().strip()
         username = self.username_input.text().strip()
         password = self.password_input.text().strip()
-        port = 2222  #SSH Port
 
         self.output_box.clear()
-
         if not ip or not username or not password:
             self.output_box.setText("❌ All fields are required.")
             return
@@ -189,20 +192,43 @@ class SSHApp(QMainWindow):
             self.output_box.setText("❌ Invalid IP address format.")
             return
 
-        self.output_box.setText("⏳ Trying to connect via SSH...")
-        QApplication.processEvents()  # Forces the GUI to update
-        
+        self.output_box.setText("⏳ Connecting to SSH server via backend...")
+        QApplication.processEvents()
+
         try:
-            client = paramiko.SSHClient()
-            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(
-                ip, port=port, username=username, password=password, timeout=5
-            )
-            self.output_box.setText("✅ SSH connection successful!")
-            # client.close()
-            # self.stack.setCurrentWidget(self.output_page)
+            response = requests.post(f"{BACKEND_URL}/ssh_connect", json={
+                "ip": ip,
+                "username": username,
+                "password": password
+            })
+            data = response.json()
+            if data.get("status") == "connected":
+                self.output_box.setText("✅ SSH connection successful via backend!")
+                self.stack.setCurrentWidget(self.output_page)
+            else:
+                self.output_box.setText(f"❌ SSH connection failed: {data.get('error', 'Unknown error')}")
         except Exception as e:
-            self.output_box.setText(f"❌ SSH connection failed: {e}")
+            self.output_box.setText(f"❌ Backend error: {e}")
+
+    def ssh_status(self):
+        try:
+            response = requests.post(f"{BACKEND_URL}/ssh_status")
+            data = response.json()
+            if data.get("status") == "connected":
+                self.output_box.setText("✅ SSH session is active.")
+            else:
+                self.output_box.setText("❌ SSH session is not connected.")
+        except Exception as e:
+            self.output_box.setText(f"❌ Error checking SSH status: {e}")
+
+    def ssh_disconnect(self):
+        try:
+            response = requests.post(f"{BACKEND_URL}/ssh_disconnect")
+            data = response.json()
+            self.output_box.setText(data.get("message", "Disconnected."))
+            self.stack.setCurrentWidget(self.login_page)
+        except Exception as e:
+            self.output_box.setText(f"❌ Error disconnecting: {e}")
 
     def go_back_to_login(self):
         self.stack.setCurrentWidget(self.login_page)
@@ -210,11 +236,8 @@ class SSHApp(QMainWindow):
     def go_to_next(self):
         self.stack.setCurrentWidget(self.output_page)
 
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = SSHApp()
     window.show()
     sys.exit(app.exec_())
-
-    
