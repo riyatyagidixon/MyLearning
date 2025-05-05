@@ -128,7 +128,7 @@ class OLTConfiguration(QWidget):
 
         # === Control Buttons ===
         control_button_layout = QHBoxLayout()
-        self.save_button = QPushButton("Save")
+        self.save_button = QPushButton("Save Configs")
         self.save_button.setFixedSize(100, 30)
         self.save_button.clicked.connect(self.save_configurations)
 
@@ -169,6 +169,7 @@ class OLTConfiguration(QWidget):
         """Retrieve IP Address, VLAN, and OLT Port for ONT Page"""
         return {
             "ip": self.ip_input.text().strip(),
+            "upstream_port": self.uplink_input.text().strip(),
             "vlan_id": self.vlan_input.text().strip(),
             "pon_port": self.olt_port_input.text().strip(),
         }
