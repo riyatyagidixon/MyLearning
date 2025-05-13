@@ -19,10 +19,10 @@ from qtpy.QtCore import Qt
 
 BACKEND_URL = "http://localhost:5000"
 
-class SSHApp(QMainWindow):
+class TelnetApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("SSH Connection App")
+        self.setWindowTitle("Telnet Connection App")
         self.setGeometry(200, 200, 600, 400)
 
         self.stack = QStackedWidget()
@@ -82,9 +82,9 @@ class SSHApp(QMainWindow):
         self.status_btn = QPushButton("Status")
         self.connect_btn = QPushButton("Connect")
 
-        self.disconnect_btn.clicked.connect(self.ssh_disconnect)
-        self.status_btn.clicked.connect(self.ssh_status)
-        self.connect_btn.clicked.connect(self.ssh_connect)
+        self.disconnect_btn.clicked.connect(self.telnet_disconnect)
+        self.status_btn.clicked.connect(self.telnet_status)
+        self.connect_btn.clicked.connect(self.telnet_connect)
 
         button_layout.addWidget(self.disconnect_btn)
         button_layout.addWidget(self.status_btn)
@@ -132,7 +132,7 @@ class SSHApp(QMainWindow):
         command_layout.addWidget(self.command_input)
 
         self.run_command_btn = QPushButton("Run Command")
-        self.run_command_btn.clicked.connect(self.run_ssh_command)
+        self.run_command_btn.clicked.connect(self.run_telnet_command)
         command_layout.addWidget(self.run_command_btn)
 
         command_box.setLayout(command_layout)
@@ -169,13 +169,14 @@ class SSHApp(QMainWindow):
         layout.addWidget(self.back_btn)
 
         self.output_page.setLayout(layout)
+
     def toggle_password(self):
         if self.eye_button.isChecked():
             self.password_input.setEchoMode(QLineEdit.Normal)
         else:
             self.password_input.setEchoMode(QLineEdit.Password)
 
-    def ssh_connect(self):
+    def telnet_connect(self):
         ip = self.ip_input.text().strip()
         username = self.username_input.text().strip()
         password = self.password_input.text().strip()
@@ -190,25 +191,25 @@ class SSHApp(QMainWindow):
             self.output_box.setText("❌ Invalid IP address format.")
             return
 
-        self.output_box.setText("⏳ Connecting to SSH server via backend...")
+        self.output_box.setText("⏳ Connecting to Telnet server via backend...")
         QApplication.processEvents()
 
         try:
-            response = requests.post(f"{BACKEND_URL}/ssh_connect", json={
+            response = requests.post(f"{BACKEND_URL}/telnet_connect", json={
                 "ip": ip,
                 "username": username,
                 "password": password
             })
             data = response.json()
             if data.get("status") == "connected":
-                self.output_box.setText("✅ SSH connection successful via backend!")
-                self.stack.setCurrentWidget(self.output_page)                       
+                self.output_box.setText("✅ Telnet connection successful via backend!")
+                self.stack.setCurrentWidget(self.output_page)
             else:
-                self.output_box.setText(f"❌ SSH connection failed: {data.get('error', 'Unknown error')}")
+                self.output_box.setText(f"❌ Telnet connection failed: {data.get('error', 'Unknown error')}")
         except Exception as e:
             self.output_box.setText(f"❌ Backend error: {e}")
 
-    def run_ssh_command(self):
+    def run_telnet_command(self):
         command = self.command_input.toPlainText().strip()
         if not command:
             self.command_output.setPlainText("⚠️ Please enter a command to execute.")
@@ -226,20 +227,20 @@ class SSHApp(QMainWindow):
         except Exception as e:
             self.command_output.setPlainText(f"❌ Error running command: {e}")
 
-    def ssh_status(self):
+    def telnet_status(self):
         try:
-            response = requests.post(f"{BACKEND_URL}/ssh_status")
+            response = requests.post(f"{BACKEND_URL}/telnet_status")
             data = response.json()
             if data.get("status") == "connected":
-                self.output_box.setText("✅ SSH session is active.")
+                self.output_box.setText("✅ Telnet session is active.")
             else:
-                self.output_box.setText("❌ SSH session is not connected.")
+                self.output_box.setText("❌ Telnet session is not connected.")
         except Exception as e:
-            self.output_box.setText(f"❌ Error checking SSH status: {e}")
+            self.output_box.setText(f"❌ Error checking Telnet status: {e}")
 
-    def ssh_disconnect(self):
+    def telnet_disconnect(self):
         try:
-            response = requests.post(f"{BACKEND_URL}/ssh_disconnect")
+            response = requests.post(f"{BACKEND_URL}/telnet_disconnect")
             data = response.json()
             self.output_box.setText(data.get("message", "Disconnected."))
             self.stack.setCurrentWidget(self.login_page)
@@ -254,6 +255,6 @@ class SSHApp(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = SSHApp()
+    window = TelnetApp()
     window.show()
     sys.exit(app.exec_())
